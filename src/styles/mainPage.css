@@ -1,0 +1,131 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+#content{
+    height: 100%;
+}
+
+#mainPage{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr 4.5fr 0.5fr;
+}
+
+.header{
+    grid-column: 1/3;
+    background-color: #2D6B6B;
+    color: white;
+    padding: 20px;
+
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid white;
+}
+
+footer{
+    grid-row: 3/4;
+    grid-column: 1/3;
+    background-color: #2D6B6B;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 2px solid white;
+}
+
+.sideBar{
+    background-color: #6CA0AB;
+    color: black;
+    padding: 20px;
+    border-right: 2px solid black;
+}
+
+.newTodo{
+    background-color: #EB1700;
+    color: white;
+    border-radius: 10px;
+    width: 130px;
+    padding: 10px;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.newTodo:hover {
+    background-color: #EA583C;
+}
+
+.active{
+    animation: slider-in 0.4s linear;
+}
+
+.inactive{
+    animation: slider-out 0.8s forwards;
+}
+
+.main{
+    background-color: #f5f5f5;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hiddenMenu {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 4px;
+    transition: transform 0.2s ease;
+}
+
+.hiddenMenu:active {
+    transform: scale(0.9);
+}
+
+.hiddenMenu .material-icons-round {
+    color: white;
+    transform: scale(1.3);
+    pointer-events: none;
+}
+
+.hiddenMenu:hover {
+    background-color: rgba(128, 128, 128, 0.267);
+}
+
+.material-symbols-outlined {
+    color: white;
+    transform: scale(1);
+    pointer-events: none;
+}
+
+
+@keyframes slider-in {
+    0%{
+        transform: translateX(-100%);
+    }
+    100%{
+        transform: translateX(0%);
+    }
+}
+
+@keyframes slider-out {
+    0%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(-200%);
+    }
+}
