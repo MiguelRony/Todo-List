@@ -1,0 +1,62 @@
+
+
+.todoCard{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding-left: 10px;
+    min-height: 50px;
+    border-radius: 10px;
+    background-color: #f4f4f4;
+    color: black;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.todoCard:hover{
+    transform: scale(1.01);
+}
+
+.todoContent{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.description{
+    font-size: 0.8rem;
+    color: #7c7c7c;
+}
+
+.dueDate{
+    font-size: 0.8rem;
+    color: #7c7c7c;
+}
+
+.priority{
+    width: 20px;
+    height: 100%;
+    border-left: 1px solid black;
+}
+
+.High{
+    background-color: red;
+}
+
+.Medium{
+    background-color: orange;
+}
+
+.Low{
+    background-color: rgb(14, 177, 14);
+}
+
+.checkBoxDiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    width: 6%;
+    height: 80%;
+}

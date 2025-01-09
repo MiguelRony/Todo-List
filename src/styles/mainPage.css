@@ -1,8 +1,14 @@
 
+@font-face {
+    font-family: 'Roboto';
+    src: url(../utils/fonts/Roboto/Roboto-Bold.ttf) format('truetype');
+}
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
 body{
@@ -17,69 +23,111 @@ body{
 #mainPage{
     height: 100%;
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-template-rows: 1fr 4.5fr 0.5fr;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
 .header{
-    grid-column: 1/3;
+    flex-basis: 70px;
     background-color: #2D6B6B;
     color: white;
-    padding: 20px;
+    /* padding: 20px; */
 
     display: flex;
     align-items: center;
-    border-bottom: 2px solid white;
+    /* border-bottom: 2px solid white; */
 }
 
 footer{
-    grid-row: 3/4;
-    grid-column: 1/3;
+    flex-basis: 70px;
     background-color: #2D6B6B;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 2px solid white;
+    /* border-top: 2px solid white; */
+}
+
+/* .material-icons-outlined{
+    color: white;
+    transform: scale(1);
+    pointer-events: none;
+} */
+
+.main{
+    flex-grow: 1;
+    color: black;
+    display: flex;
+    width: 100%;
+    position: relative;
 }
 
 .sideBar{
     background-color: #6CA0AB;
     color: black;
-    padding: 20px;
+    padding: 15px;
     border-right: 2px solid black;
+    height: 100%;
+    width: 250px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sideBarItem{
+    background-color: #6CA0AB;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.sideBarItem:hover{
+    background-color: #79b0bb;
 }
 
 .newTodo{
     background-color: #EB1700;
     color: white;
     border-radius: 10px;
-    width: 130px;
+    /* width: 130px; */
     padding: 10px;
     gap: 10px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .newTodo:hover {
     background-color: #EA583C;
 }
 
+.newTodo:active, .sideBarItem:active {
+    transform: scale(0.9);
+}
+
 .active{
-    animation: slider-in 0.4s linear;
+    animation: slider-in linear;
 }
 
 .inactive{
-    animation: slider-out 0.8s forwards;
+    animation: slider-out forwards;
+    position: absolute;
 }
 
-.main{
+.projectsSection{
+    flex-grow: 1;
     background-color: #f5f5f5;
-    color: black;
+
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    gap: 8px;
 }
 
 .hiddenMenu {
@@ -109,6 +157,10 @@ footer{
     color: white;
     transform: scale(1);
     pointer-events: none;
+}
+
+.material-icons-outlined {
+    color: black;
 }
 
 
