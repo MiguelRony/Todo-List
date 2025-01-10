@@ -1,5 +1,6 @@
 import projects from '../styles/projects.css';
 import { renderTodos } from './renderTodos';
+import { ProjectView } from './ProjectView';
 
 export const renderProjects = (projects, mainContent) => {
 
@@ -17,6 +18,9 @@ const createProjectCard = (project) => {
 
     projectTodos.classList.add('projectTodos');
 
+    projectCard.addEventListener('click', () => {
+        ProjectView(project);
+    });
     
 
     projectCard.classList.add('projectCard');
@@ -25,3 +29,5 @@ const createProjectCard = (project) => {
     renderTodos(project, projectCard, true);
     return projectCard;
 }
+
+export default createProjectCard;

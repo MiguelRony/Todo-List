@@ -60,3 +60,24 @@
     width: 6%;
     height: 80%;
 }
+
+.todoCard .material-icons-outlined {
+    color: black;
+}
+
+.deleteDiv{
+    padding: 5px;
+    cursor: pointer;
+}
+
+.deleteDiv:hover{
+    transform: scale(1.2);
+}
+
+.deleteDiv .material-icons-outlined{
+    color: rgb(231, 50, 50);
+}
+
+.deleteDiv:active{
+    transform: scale(0.9);
+}

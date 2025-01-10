@@ -4,6 +4,7 @@ import { Project, NormalProjectStorage } from "./controllers/project.js";
 import { Todo } from "./controllers/todo.js";
 import { consoleApp } from "./controllers/consoleApp.js";
 import { renderProjects } from "./pages/renderProjects.js";
+import { ProjectView } from "./pages/ProjectView.js";
 
 import mainPage from "./pages/mainPage.js";
 
@@ -32,10 +33,12 @@ const controller = (() => {
     return {app, projectsFactory, todosFactory};
 })();
 
+const defaultProject = controller.projectsFactory.createProject("Default");
 const project1 = controller.projectsFactory.createProject("Project 1");
 const project2 = controller.projectsFactory.createProject("Project 2");
 const project3 = controller.projectsFactory.createProject("Project 3");
 
+controller.app.addProject(defaultProject);
 controller.app.addProject(project1);
 controller.app.addProject(project2);
 controller.app.addProject(project3);
@@ -43,16 +46,21 @@ controller.app.addProject(project3);
 const todo1 = controller.todosFactory.createTodo("Todo 1", "Description 1", "2021-12-12", "High", "Incomplete");
 const todo2 = controller.todosFactory.createTodo("Todo 2", "Description 2", "2021-12-13", "Low", "Complete");
 const todo3 = controller.todosFactory.createTodo("Todo 3", "Description 3", "2021-12-14", "Medium", "Incomplete");
+const todo4 = controller.todosFactory.createTodo("Todo 2", "Description 2", "2021-12-13", "Low", "Complete");
+const todo5 = controller.todosFactory.createTodo("Todo 3", "Description 3", "2021-12-14", "Medium", "Incomplete");
+const todo6 = controller.todosFactory.createTodo("Todo 2", "Description 2", "2021-12-13", "Low", "Complete");
+const todo7 = controller.todosFactory.createTodo("Todo 3", "Description 3", "2021-12-14", "Medium", "Incomplete");
 
 controller.app.addTodoToProject("Project 1", todo1);
 controller.app.addTodoToProject("Project 2", todo2);
 controller.app.addTodoToProject("Project 2", todo3);
+controller.app.addTodoToProject("Project 1", todo4);
+controller.app.addTodoToProject("Project 2", todo5);
+controller.app.addTodoToProject("Project 2", todo6);
+controller.app.addTodoToProject("Project 1", todo7);
 
-console.log(controller.app.getAllProjects());
-console.log(controller.app.getTodoList("Project 1"));
-console.log(controller.app.getTodoFromProject("Project 2", 0));
 
-
-
-const mainContent = mainPage();
-renderProjects(controller.app.getAllProjects(), mainContent.main);
+const mainContent = mainPage(controller);
+const defProject = controller.app.getProject("Default");
+ProjectView(defProject);
+// renderProjects(controller.app.getAllProjects(), mainContent.main);

@@ -7,22 +7,46 @@ export const renderTodos = (project, projectCard, preview) => {
     if(todos.length === 0){
         const emptyTodoCard = createEmptyTodoCard();
         todosSection.appendChild(emptyTodoCard);
-    } else if(todos.length < 2){
+    } else if(todos.length < 4){
         todos.forEach(todo => {
             const todoCard = createTodoCard(todo);
+            todoCard.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
             todosSection.appendChild(todoCard);
+            const deleteCard = todoCard.querySelector('.deleteDiv');
+            deleteCard.addEventListener('click', () => {
+                project.removeTodo(todo.id);
+                renderTodos(project, projectCard, preview);
+            });
         });
     } else{
         if (preview) {
-            todos = todos.slice(0, 2);
+            todos = todos.slice(0, 3);
             todos.forEach(todo => {
                 const todoCard = createTodoCard(todo);
+                todoCard.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                });
                 todosSection.appendChild(todoCard);
+                const deleteCard = todoCard.querySelector('.deleteDiv');
+                deleteCard.addEventListener('click', () => {
+                    project.removeTodo(todo.id);
+                    renderTodos(project, projectCard, preview);
+                });
             });
         }else{
             todos.forEach(todo => {
                 const todoCard = createTodoCard(todo);
+                todoCard.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                });
                 todosSection.appendChild(todoCard);
+                const deleteCard = todoCard.querySelector('.deleteDiv');
+                deleteCard.addEventListener('click', () => {
+                    project.removeTodo(todo.id);
+                    renderTodos(project, projectCard, preview);;
+                });
             });
         }
     }
@@ -48,8 +72,10 @@ const createTodoCard = (todo) => {
 
     checkBoxDiv.addEventListener('click', () => {
         if (checkBox.textContent === 'check_box_outline_blank') {
+            todo.status = 'Complete';
             checkBox.textContent = 'check_box';
         } else {
+            todo.status = 'Incomplete';
             checkBox.textContent = 'check_box_outline_blank';
         }
     });
@@ -72,6 +98,16 @@ const createTodoCard = (todo) => {
     dueDate.classList.add('dueDate');
     dueDate.textContent = todo.dueDate;
     todoCard.appendChild(dueDate);
+
+    // Create delete icon
+    const deleteDiv = document.createElement('div');
+    const deleteIcon = document.createElement('span');
+    deleteIcon.classList.add('material-icons-outlined');
+    deleteDiv.classList.add('deleteDiv');
+    deleteIcon.textContent = 'delete';
+    deleteIcon.classList.add('deleteIcon');
+    deleteDiv.appendChild(deleteIcon);
+    todoCard.appendChild(deleteDiv);
 
     // Create priority
     const priority = document.createElement('div');
