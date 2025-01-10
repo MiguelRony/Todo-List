@@ -1,3 +1,5 @@
+import {Todo} from './todo.js';
+
 
 class ProjectStorage{
     add(todo){}
@@ -7,7 +9,7 @@ class ProjectStorage{
 }
 
 
-export default class Project{
+class Project{
     constructor(name, projectStorage){
         this.name = name;
         this.todos = projectStorage;
@@ -28,13 +30,17 @@ export default class Project{
     removeTodo(todoId){
         this.todos.remove(todoId);
     }
+
+    Stringify(){
+        return { name: this.name, idCount: this.todos.idGenerator.id, todos: this.todos.Stringify() };
+    }
 }
 
 class NormalProjectStorage extends ProjectStorage{
     constructor(){
         super();
         this.todos = [];
-        this.idGenerator = new IdGenerator();
+        this.idGenerator = new IdGenerator(0);
     }
 
     add(todo){
@@ -59,9 +65,51 @@ class NormalProjectStorage extends ProjectStorage{
     }
 }
 
-class IdGenerator{
+class LocalProjectStorage extends ProjectStorage{
     constructor(){
-        this.id = 0;
+        super();
+        this.todos =  [];
+        this.idGenerator = new IdGenerator(0);
+    }
+
+    add(todo){
+        todo.id = this.idGenerator.generateId();
+        this.todos.push(todo);
+    }
+
+    get(todoId){
+        return this.todos.find(todo => todo.id === todoId);
+    }
+
+    remove(todoId){
+        this.todos = this.todos.filter(todo => todo.id !== todoId);
+    }
+
+    getAll(){
+        return this.todos;
+    }
+
+    Stringify(){
+        return this.todos;
+    }
+}
+
+const localStorageProjectDecoder = (data) => {
+    return data.map(project => {
+        return new Project(project.name, localStorageTodoDecoder(project.todos));
+    });
+}
+
+const localStorageTodoDecoder = (data) => {
+    return data.map(todo => {
+        return new Todo(todo.id, todo.title, todo.description, todo.dueDate, todo.priority, todo.status);
+    });
+}
+
+
+class IdGenerator{
+    constructor(idCount){
+        this.id = idCount;
     }
 
     generateId(){
@@ -69,4 +117,4 @@ class IdGenerator{
     }
 }
 
-export {Project, NormalProjectStorage};
+export {Project, NormalProjectStorage, LocalProjectStorage};

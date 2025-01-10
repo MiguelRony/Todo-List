@@ -1,5 +1,7 @@
 import mainPage from '../styles/mainPage.css';
 import { renderProjects } from './renderProjects';
+import { ProjectView } from './ProjectView';
+import { format } from 'date-fns';
 
 const MainPage = (controller) => {
     const content = document.getElementById('content');
@@ -84,7 +86,7 @@ const createSideBar = (controller, main) =>{
     projectList.classList.add('sideBarItem');
     
     projectList.addEventListener('click', () => {
-        renderProjects(controller.app.getAllProjects(), main);
+        renderProjects(controller.app.getAllProjects(), main, controller);
     });
 
     
@@ -96,6 +98,7 @@ const createSideBar = (controller, main) =>{
 
 const createNewTodoForm = (controller, dialog, overlay) => {
     const form = document.createElement('form');
+    form.autocomplete = 'off';
     form.classList.add('dialogTodoForm');
     form.method = 'dialog';
     form.id = 'newTodoForm';
@@ -205,7 +208,15 @@ const createNewTodoForm = (controller, dialog, overlay) => {
     overlay.style.display = 'block';
 
     form.addEventListener('submit', (e) => {
-        console.log(form.elements.title.value);
+        const [year, month, day] = form.elements.dueDate.value.split('-');
+        const todo = controller.todosFactory.createTodo(
+            form.elements.title.value, 
+            form.elements.description.value, 
+            format(new Date(year, month - 1, day), "EEE dd, MM, yyyy"), 
+            form.elements.priority.value, 
+            'Incomplete');
+        controller.app.addTodoToProject(form.elements.project.value, todo);
+        ProjectView(controller.app.getProject(form.elements.project.value), controller);
         dialog.close();
         overlay.style.display = 'none';
     });
@@ -213,6 +224,7 @@ const createNewTodoForm = (controller, dialog, overlay) => {
 
 const createNewProjectForm = (controller, dialog, overlay) => {
     const form = document.createElement('form');
+    form.autocomplete = 'off';
     form.classList.add('dialogProjectForm');
     form.method = 'dialog';
     form.id = 'newProjectForm';
@@ -253,7 +265,9 @@ const createNewProjectForm = (controller, dialog, overlay) => {
     overlay.style.display = 'block';
 
     form.addEventListener('submit', (e) => {
-        console.log(form.elements.name.value);
+        const project = controller.projectsFactory.createProject(form.elements.name.value);
+        controller.app.addProject(project);
+        ProjectView(project, controller);
         dialog.close();
         overlay.style.display = 'none';
     });

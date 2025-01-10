@@ -1,6 +1,6 @@
 import todosStyles from '../styles/todos.css';
 
-export const renderTodos = (project, projectCard, preview) => {
+export const renderTodos = (project, projectCard, preview, controller) => {
     const todosSection = projectCard.querySelector('.projectTodos');
     todosSection.replaceChildren();
     let todos = project.getTodoList();
@@ -9,7 +9,7 @@ export const renderTodos = (project, projectCard, preview) => {
         todosSection.appendChild(emptyTodoCard);
     } else if(todos.length < 4){
         todos.forEach(todo => {
-            const todoCard = createTodoCard(todo);
+            const todoCard = createTodoCard(todo, controller);
             todoCard.addEventListener('click', (event) => {
                 event.stopPropagation();
             });
@@ -17,14 +17,15 @@ export const renderTodos = (project, projectCard, preview) => {
             const deleteCard = todoCard.querySelector('.deleteDiv');
             deleteCard.addEventListener('click', () => {
                 project.removeTodo(todo.id);
-                renderTodos(project, projectCard, preview);
+                renderTodos(project, projectCard, preview, controller);
+                controller.app.mainList.projects.StoreInfo();
             });
         });
     } else{
         if (preview) {
             todos = todos.slice(0, 3);
             todos.forEach(todo => {
-                const todoCard = createTodoCard(todo);
+                const todoCard = createTodoCard(todo, controller);
                 todoCard.addEventListener('click', (event) => {
                     event.stopPropagation();
                 });
@@ -32,12 +33,13 @@ export const renderTodos = (project, projectCard, preview) => {
                 const deleteCard = todoCard.querySelector('.deleteDiv');
                 deleteCard.addEventListener('click', () => {
                     project.removeTodo(todo.id);
-                    renderTodos(project, projectCard, preview);
+                    renderTodos(project, projectCard, preview, controller);
+                    controller.app.mainList.projects.StoreInfo();
                 });
             });
         }else{
             todos.forEach(todo => {
-                const todoCard = createTodoCard(todo);
+                const todoCard = createTodoCard(todo, controller);
                 todoCard.addEventListener('click', (event) => {
                     event.stopPropagation();
                 });
@@ -45,7 +47,8 @@ export const renderTodos = (project, projectCard, preview) => {
                 const deleteCard = todoCard.querySelector('.deleteDiv');
                 deleteCard.addEventListener('click', () => {
                     project.removeTodo(todo.id);
-                    renderTodos(project, projectCard, preview);;
+                    renderTodos(project, projectCard, preview, controller);
+                    controller.app.mainList.projects.StoreInfo();
                 });
             });
         }
@@ -53,7 +56,7 @@ export const renderTodos = (project, projectCard, preview) => {
     
 }
 
-const createTodoCard = (todo) => {
+const createTodoCard = (todo, controller) => {
     const todoCard = document.createElement('div');
 
     // Create checkbox
@@ -74,9 +77,11 @@ const createTodoCard = (todo) => {
         if (checkBox.textContent === 'check_box_outline_blank') {
             todo.status = 'Complete';
             checkBox.textContent = 'check_box';
+            controller.app.mainList.projects.StoreInfo();
         } else {
             todo.status = 'Incomplete';
             checkBox.textContent = 'check_box_outline_blank';
+            controller.app.mainList.projects.StoreInfo();
         }
     });
 

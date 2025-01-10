@@ -37,11 +37,13 @@ class TodosController{
     addTodoToProject(projectName, todo){
         const project = this.projectsList.getProject(projectName);
         project.addTodo(todo);
+        this.projectsList.projects.StoreInfo();
     }
 
     removeTodoFromProject(projectName, todoId){
         const project = this.projectsList.getProject(projectName);
         project.removeTodo(todoId);
+        this.projectsList.projects.StoreInfo();
     }
 
     getTodoList(projectName){

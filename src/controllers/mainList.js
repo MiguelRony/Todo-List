@@ -1,3 +1,6 @@
+import {Project, LocalProjectStorage} from './project.js';
+import {Todo} from './todo.js';
+
 
 class MainStorage{
     add(project){}
@@ -56,4 +59,59 @@ class TestStorage extends MainStorage{
     }
 }
 
-export {MainList,  TestStorage};
+class LocalStorage extends MainStorage{
+    constructor(){
+        super();
+        this.projects = [];
+        if (localStorage.getItem('projects')){
+            JSON.parse(localStorage.getItem('projects')).map(project => {
+                console.log(project.name);
+                const newProject = new Project(project.name, new LocalProjectStorage());
+                project.todos.map(todo => {
+                    new Todo(todo.title, todo.description, todo.dueDate, todo.priority, todo.status);
+                    newProject.addTodo(todo);
+                });
+                this.projects.push(newProject);
+            });
+        }else{
+            this.projects.push(new Project("Default", new LocalProjectStorage()));
+            this.StoreInfo();
+        }
+        
+    }
+
+    add(project){
+        this.projects.push(project);
+        let objects = this.projects.map(object => {
+             return object.Stringify();
+        });
+        localStorage.setItem('projects', JSON.stringify(objects));
+        // if (this.get(project.name) === undefined){
+            
+        //     return true;
+        // }
+        // return false;
+    }
+
+    get(projectName){
+        return this.projects.find(project => project.name === projectName);
+    }
+
+    remove(projectName){
+        this.projects = this.projects.filter(project => project.name !== projectName);
+        localStorage.setItem('projects', JSON.stringify(this.projects));
+    }
+
+    getAll(){
+        return this.projects;
+    }
+
+    StoreInfo(){
+        let objects = this.projects.map(object => {
+            return object.Stringify();
+       });
+        localStorage.setItem('projects', JSON.stringify(objects));
+    }
+}
+
+export {MainList,  TestStorage, LocalStorage};
